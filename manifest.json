@@ -1,0 +1,10 @@
+{
+  "id": "obsidi-format",
+  "name": "ObsidiFormat",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Format, beautify, and validate JSON, XML, and SOAP directly within Obsidian.",
+  "author": "imRezaAlie",
+  "authorUrl": "https://rezaalie.ir",
+  "isDesktopOnly": false
+}

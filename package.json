@@ -1,0 +1,46 @@
+{
+  "name": "obsidi-format",
+  "version": "1.0.0",
+  "description": "Format, beautify, and validate JSON, XML, and SOAP directly within Obsidian.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "test": "node scripts/run-tests.mjs",
+    "typecheck": "tsc --noEmit --skipLibCheck"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "json",
+    "xml",
+    "soap",
+    "formatter"
+  ],
+  "author": "imRezaAlie",
+  "homepage": "https://rezaalie.ir",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imRezaAlie/obsidiFormat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imRezaAlie/obsidiFormat/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "codemirror": "^5.65.18"
+  },
+  "devDependencies": {
+    "@types/codemirror": "^5.60.16",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.10.2",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.24.2",
+    "jsdom": "^25.0.1",
+    "obsidian": "^1.7.2",
+    "typescript": "^5.7.2"
+  }
+}
