@@ -6,8 +6,6 @@ Repository: [github.com/imRezaAlie/obsidiFormat](https://github.com/imRezaAlie/o
 
 ObsidiFormat formats, beautifies, validates, and minifies JSON, XML, and SOAP inside Obsidian. Processing stays on the device. The plugin does not upload note contents or call an external formatter.
 
-The original browser application is preserved as `json-soap-beautifier-v2-standalone.html`. The plugin ports its lexical formatter and workspace into a native Obsidian view.
-
 ## Features
 
 - Beautify, minify, and validate JSON, XML, and SOAP 1.1 / SOAP 1.2.
