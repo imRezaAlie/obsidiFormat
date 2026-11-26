@@ -110,6 +110,10 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
 
   async saveSettings(): Promise<void> {
     await this.saveData(this.settings);
+  }
+
+  override async saveData(data: unknown): Promise<void> {
+    await super.saveData(data);
     if (this.notifying) return;
     this.notifying = true;
     try {

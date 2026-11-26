@@ -313,7 +313,7 @@ export class ObsidiFormatView extends ItemView {
     privacy.append(Object.assign(document.createElement("span"), { textContent: "Local & private" }));
     const version = document.createElement("span");
     version.className = "ff-version";
-    version.textContent = "v1.0.2";
+    version.textContent = "v1.0.3";
     const help = button(end, "ff-icon-button", "", "help", "keyboard");
     help.setAttribute("aria-label", "Keyboard shortcuts");
     help.title = "Keyboard shortcuts";

@@ -128,15 +128,15 @@ Layout and editor behavior still needs a pass inside Obsidian on desktop and mob
 
 ## Release
 
-`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, name `Payload Formatter`, version `1.0.2`, `minAppVersion` `1.7.2`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`. The description does not repeat the host application name.
+`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, name `Payload Formatter`, version `1.0.3`, `minAppVersion` `1.7.2`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`. The description does not repeat the host application name.
 
 1. Bump `version` in `manifest.json`, `package.json`, and `versions.json`. The `versions.json` value is the minimum Obsidian version for that release. Use `x.y.z` with no `v` prefix.
 2. Run `npm test` and `npm run build`.
 3. Commit, push `main`, then create an annotated tag that matches the manifest version:
 
    ```bash
-   git tag -a 1.0.2 -m "1.0.2"
-   git push origin 1.0.2
+   git tag -a 1.0.3 -m "1.0.3"
+   git push origin 1.0.3
    ```
 
    The GitHub Action builds the plugin and publishes the release with `main.js`, `manifest.json`, and `styles.css` attached as release assets. In the repository settings, Actions needs read and write permission. The directory rejects a release that does not have those files attached.
