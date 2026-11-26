@@ -1,9 +1,9 @@
 {
   "id": "obsidi-format",
   "name": "Payload Formatter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.4.0",
-  "description": "Format, beautify, and validate JSON, XML, and SOAP directly within Obsidian.",
+  "description": "Format, beautify, and validate JSON, XML, and SOAP.",
   "author": "Reza Ali",
   "authorUrl": "https://rezaalie.ir",
   "isDesktopOnly": false

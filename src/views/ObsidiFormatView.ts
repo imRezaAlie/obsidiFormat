@@ -207,7 +207,7 @@ export class ObsidiFormatView extends ItemView {
   }
 
   getDisplayText(): string {
-    return "ObsidiFormat";
+    return "Payload Formatter";
   }
 
   getIcon(): string {
@@ -300,7 +300,7 @@ export class ObsidiFormatView extends ItemView {
     icon(mark, "braces");
     const titles = document.createElement("div");
     const heading = document.createElement("h1");
-    heading.append("Obsidi", Object.assign(document.createElement("span"), { textContent: "Format" }));
+    heading.append("Payload", Object.assign(document.createElement("span"), { textContent: "Formatter" }));
     const subtitle = document.createElement("p");
     subtitle.textContent = "FORMAT  ·  VALIDATE  ·  TRANSFORM";
     titles.append(heading, subtitle);
@@ -314,7 +314,7 @@ export class ObsidiFormatView extends ItemView {
     privacy.append(Object.assign(document.createElement("span"), { textContent: "Local & private" }));
     const version = document.createElement("span");
     version.className = "ff-version";
-    version.textContent = "v1.0.0";
+    version.textContent = "v1.0.1";
     const help = button(end, "ff-icon-button", "", "help", "keyboard");
     help.setAttribute("aria-label", "Keyboard shortcuts");
     help.title = "Keyboard shortcuts";
@@ -654,7 +654,7 @@ export class ObsidiFormatView extends ItemView {
       body.append(row);
     }
     const note = document.createElement("p");
-    note.textContent = "On macOS, Cmd also works for Ctrl shortcuts while ObsidiFormat is focused. Drag this tab into a sidebar to dock it. These shortcuts do not change the rest of the note.";
+    note.textContent = "On macOS, Cmd also works for Ctrl shortcuts while Payload Formatter is focused. Drag this tab into a sidebar to dock it. These shortcuts do not change the rest of the note.";
     body.append(note);
     return dialog;
   }
@@ -1903,7 +1903,7 @@ export class ObsidiFormatView extends ItemView {
 
   private editor(side: EditorSide): Editor {
     const cm = this.editors[side];
-    if (!cm) throw new Error("ObsidiFormat editor is not ready.");
+    if (!cm) throw new Error("Payload Formatter editor is not ready.");
     return cm;
   }
 

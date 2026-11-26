@@ -1,7 +1,7 @@
 {
   "name": "obsidi-format",
-  "version": "1.0.0",
-  "description": "Format, beautify, and validate JSON, XML, and SOAP directly within Obsidian.",
+  "version": "1.0.1",
+  "description": "Format, beautify, and validate JSON, XML, and SOAP.",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",

@@ -41,5 +41,5 @@ jobs:
 
           gh release create "$tag" \
             --title="$tag" \
-            --draft \
+            --notes "Format, beautify, and validate JSON, XML, and SOAP." \
             main.js manifest.json styles.css

@@ -28,20 +28,20 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     this.registerView(VIEW_TYPE, (leaf) => new ObsidiFormatView(leaf, this));
     this.addSettingTab(new ObsidiFormatSettingTab(this.app, this));
 
-    this.addRibbonIcon("braces", "Open ObsidiFormat", () => {
+    this.addRibbonIcon("braces", "Open Payload Formatter", () => {
       void this.openView("tab");
     });
 
     this.addCommand({
       id: "open-obsidi-format",
-      name: "Open ObsidiFormat",
+      name: "Open Payload Formatter",
       callback: () => {
         void this.openView("tab");
       },
     });
     this.addCommand({
       id: "open-obsidi-format-sidebar",
-      name: "Open ObsidiFormat in sidebar",
+      name: "Open Payload Formatter in sidebar",
       callback: () => {
         void this.openView("sidebar");
       },
@@ -73,14 +73,14 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     });
     this.addCommand({
       id: "send-selection",
-      name: "Send selection to ObsidiFormat",
+      name: "Send selection to Payload Formatter",
       editorCallback: (editor) => {
         void this.sendSelection(editor);
       },
     });
     this.addCommand({
       id: "insert-output",
-      name: "Insert ObsidiFormat output",
+      name: "Insert Payload Formatter output",
       callback: () => this.insertOutput(),
     });
 
@@ -150,7 +150,7 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE);
     const leaf = existing[0] ?? (location === "sidebar" ? this.app.workspace.getRightLeaf(false) : this.app.workspace.getLeaf("tab"));
     if (!leaf) {
-      new Notice("Unable to open ObsidiFormat.");
+      new Notice("Unable to open Payload Formatter.");
       return null;
     }
     if (leaf.view.getViewType() !== VIEW_TYPE) {
@@ -176,7 +176,7 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     const host = MenuItem.prototype as unknown as { setSubmenu?: () => Menu };
     if (typeof host.setSubmenu === "function") {
       menu.addItem((item) => {
-        item.setTitle("ObsidiFormat").setIcon("braces").setSection("obsidi-format");
+        item.setTitle("Payload Formatter").setIcon("braces").setSection("obsidi-format");
         const submenu = (item as MenuItem & { setSubmenu: () => Menu }).setSubmenu();
         this.addFormatMenuItems(submenu, editor, hasSelection);
       });
@@ -187,7 +187,7 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
 
   private addFormatMenuItems(menu: Menu, editor: Editor, hasSelection: boolean): void {
     const needsSelection = !hasSelection;
-    this.menuItem(menu, "Open ObsidiFormat", "braces", false, () => {
+    this.menuItem(menu, "Open Payload Formatter", "braces", false, () => {
       void this.openView("tab");
     });
     this.menuItem(menu, "Auto format selection", "sparkles", needsSelection, () => {
@@ -205,10 +205,10 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     this.menuItem(menu, "Minify selected JSON", "minimize-2", needsSelection, () => {
       this.formatInEditor(editor, "minify", "json");
     });
-    this.menuItem(menu, "Send selection to ObsidiFormat", "send", needsSelection, () => {
+    this.menuItem(menu, "Send selection to Payload Formatter", "send", needsSelection, () => {
       void this.sendSelection(editor);
     });
-    this.menuItem(menu, "Insert ObsidiFormat output", "clipboard-paste", false, () => {
+    this.menuItem(menu, "Insert Payload Formatter output", "clipboard-paste", false, () => {
       this.insertOutput();
     });
   }
@@ -243,19 +243,19 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
   private async sendSelection(editor: Editor): Promise<void> {
     const text = editor.getSelection();
     if (!text.trim()) {
-      new Notice("Select text to send to ObsidiFormat.");
+      new Notice("Select text to send to Payload Formatter.");
       return;
     }
     const view = await this.openView("tab");
     if (!view) return;
     view.loadInput(text, "selection");
-    new Notice("Selection sent to ObsidiFormat.");
+    new Notice("Selection sent to Payload Formatter.");
   }
 
   private insertOutput(): void {
     const view = this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]?.view;
     if (!(view instanceof ObsidiFormatView)) {
-      new Notice("Open ObsidiFormat before inserting its output.");
+      new Notice("Open Payload Formatter before inserting its output.");
       return;
     }
     view.insertIntoActiveNote();

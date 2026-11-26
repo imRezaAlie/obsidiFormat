@@ -10,7 +10,7 @@ export class ObsidiFormatSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
     containerEl.createEl("p", {
-      text: "Formatting runs locally inside Obsidian. Nothing is uploaded. Workspace options such as fonts, wrapping, and XML auto-decode are in the ObsidiFormat view settings.",
+      text: "Formatting runs locally. Nothing is uploaded. Workspace options such as fonts, wrapping, and XML auto-decode are in the Payload Formatter view settings.",
     });
 
     new Setting(containerEl)
@@ -82,7 +82,7 @@ export class ObsidiFormatSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Syntax highlighting")
-      .setDesc("Color JSON, XML, and SOAP in the ObsidiFormat editors. Turn this off for very large payloads.")
+      .setDesc("Color JSON, XML, and SOAP in the Payload Formatter editors. Turn this off for very large payloads.")
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.syntaxHighlighting);
         toggle.onChange(async (value) => {

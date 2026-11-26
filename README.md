@@ -1,4 +1,4 @@
-# ObsidiFormat
+# Payload Formatter
 
 Website: [rezaalie.ir](https://rezaalie.ir)
 
@@ -6,7 +6,7 @@ Repository: [github.com/imRezaAlie/obsidiFormat](https://github.com/imRezaAlie/o
 
 License: [MIT](./LICENSE). Copyright (c) 2026 Reza Ali.
 
-ObsidiFormat formats, beautifies, validates, and minifies JSON, XML, and SOAP inside Obsidian. Processing stays on the device. The plugin does not upload note contents or call an external formatter.
+Payload Formatter formats, beautifies, validates, and minifies JSON, XML, and SOAP inside Obsidian. Processing stays on the device. The plugin does not upload note contents or call an external formatter.
 
 ## Features
 
@@ -38,8 +38,8 @@ ObsidiFormat formats, beautifies, validates, and minifies JSON, XML, and SOAP in
    - `manifest.json`
    - `styles.css`
 
-4. In **Settings → Community plugins**, turn off Restricted mode, then enable **ObsidiFormat**. Reload Obsidian if the plugin does not appear.
-5. Click the braces icon in the ribbon, or run **Open ObsidiFormat**.
+4. In **Settings → Community plugins**, turn off Restricted mode, then enable **Payload Formatter**. Reload Obsidian if the plugin does not appear.
+5. Click the braces icon in the ribbon, or run **Open Payload Formatter**.
 
 To build those files yourself:
 
@@ -50,7 +50,7 @@ npm run build
 
 ## Usage
 
-Open **ObsidiFormat**. Paste, drop, or upload JSON, XML, or SOAP, then choose **Beautify**, **Minify**, or **Validate**. The message bar reports success and parsing errors. **Go to error** moves the cursor to the reported line when a location is available.
+Open **Payload Formatter**. Paste, drop, or upload JSON, XML, or SOAP, then choose **Beautify**, **Minify**, or **Validate**. The message bar reports success and parsing errors. **Go to error** moves the cursor to the reported line when a location is available.
 
 **Insert** writes the output into a Markdown note that is in source mode. Reading view is not changed. It uses the active source note when one is focused, and otherwise the last source note. An existing selection is replaced. The note is not saved.
 
@@ -58,7 +58,7 @@ Open **ObsidiFormat**. Paste, drop, or upload JSON, XML, or SOAP, then choose **
 
 Turn on **Auto format** to reformat after edits, or **Auto-decode escaped XML** in the view settings when the whole input is an entity-encoded document. Entities inside XML that is already well-formed are not decoded automatically.
 
-While the ObsidiFormat tab is focused:
+While the Payload Formatter tab is focused:
 
 | Action | Shortcut |
 | --- | --- |
@@ -75,23 +75,23 @@ While the ObsidiFormat tab is focused:
 
 | Command | What it does |
 | --- | --- |
-| Open ObsidiFormat | Opens the workspace in a tab, or focuses it if it is already open. |
-| Open ObsidiFormat in sidebar | Opens it in the right sidebar when it is not already open. |
+| Open Payload Formatter | Opens the workspace in a tab, or focuses it if it is already open. |
+| Open Payload Formatter in sidebar | Opens it in the right sidebar when it is not already open. |
 | Format selected JSON | Beautifies the selection as JSON and replaces that selection. |
 | Format selected XML | Beautifies the selection as XML. |
 | Format selected SOAP | Beautifies the selection as SOAP. |
 | Auto format selection | Detects the format, or uses the default formatter when detection is off. |
 | Minify selected JSON | Compacts the selected JSON. |
-| Send selection to ObsidiFormat | Loads the selection into the input editor. |
-| Insert ObsidiFormat output | Inserts the output into a source-mode Markdown note. It does not save the note. |
+| Send selection to Payload Formatter | Loads the selection into the input editor. |
+| Insert Payload Formatter output | Inserts the output into a source-mode Markdown note. It does not save the note. |
 
 Selection commands do nothing to the rest of the note. If parsing fails, the selection is kept and a notice explains the error.
 
-The same actions are on the editor right-click menu under **ObsidiFormat**. Format actions stay disabled until text is selected. On older Obsidian releases that cannot show a submenu, the actions are listed directly in the menu.
+The same actions are on the editor right-click menu under **Payload Formatter**. Format actions stay disabled until text is selected. On older Obsidian releases that cannot show a submenu, the actions are listed directly in the menu.
 
 ## Configuration
 
-Open **Settings → ObsidiFormat**.
+Open **Settings → Payload Formatter**.
 
 | Setting | Purpose |
 | --- | --- |
@@ -100,7 +100,7 @@ Open **Settings → ObsidiFormat**.
 | Automatic format detection | Detect JSON, XML, or SOAP. |
 | Default formatter | JSON, XML, or SOAP when detection is off. |
 | Output preference | Keep output in the panel, or also copy it. |
-| Syntax highlighting | Color the ObsidiFormat editors. Turn this off for very large payloads. |
+| Syntax highlighting | Color the Payload Formatter editors. Turn this off for very large payloads. |
 
 The view's own settings store zoom, word wrap, layout, auto-format, format-on-paste, XML auto-decode, and optional local content. Saved editor text is off by default. When enabled, each editor stores at most 1,000,000 characters, unencrypted, in `<vault>/.obsidian/plugins/obsidi-format/data.json`. Preferences are saved with Obsidian's `loadData` / `saveData`.
 
@@ -128,18 +128,18 @@ Layout and editor behavior still needs a pass inside Obsidian on desktop and mob
 
 ## Release
 
-`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, version `1.0.0`, `minAppVersion` `1.4.0`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`.
+`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, name `Payload Formatter`, version `1.0.1`, `minAppVersion` `1.4.0`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`. The description does not repeat the host application name.
 
 1. Bump `version` in `manifest.json`, `package.json`, and `versions.json`. The `versions.json` value is the minimum Obsidian version for that release. Use `x.y.z` with no `v` prefix.
 2. Run `npm test` and `npm run build`.
 3. Commit, push `main`, then create an annotated tag that matches the manifest version:
 
    ```bash
-   git tag -a 1.0.0 -m "1.0.0"
-   git push origin 1.0.0
+   git tag -a 1.0.1 -m "1.0.1"
+   git push origin 1.0.1
    ```
 
-   The GitHub Action builds the plugin and opens a draft release with `main.js`, `manifest.json`, and `styles.css`. In the repository settings, Actions needs read and write permission. Open the draft, add notes, and publish it.
+   The GitHub Action builds the plugin and publishes the release with `main.js`, `manifest.json`, and `styles.css` attached as release assets. In the repository settings, Actions needs read and write permission. The directory rejects a release that does not have those files attached.
 4. Sign in at [community.obsidian.md](https://community.obsidian.md), link the GitHub account that owns this repository, and add the plugin. The directory reads `manifest.json` from the default branch, then downloads the release whose tag matches `version`.
 
 Before submission, confirm the plugin loads and unloads cleanly, that commands are undoable, and that no network requests are made while formatting.
@@ -147,9 +147,9 @@ Before submission, confirm the plugin loads and unloads cleanly, that commands a
 ## Assumptions
 
 - Minimum Obsidian version is 1.4.0 because the view uses workspace leaves, the editor selection API, and theme CSS variables that have been stable since that generation.
-- CodeMirror 5 is bundled for the ObsidiFormat editors so folding, search, and bracket matching work there. It is themed with Obsidian CSS variables and is not the editor used for Markdown notes.
+- CodeMirror 5 is bundled for the Payload Formatter editors so folding, search, and bracket matching work there. It is themed with Obsidian CSS variables and is not the editor used for Markdown notes.
 - XML well-formedness uses the platform `DOMParser` after markup declarations have been rejected. Obsidian desktop and mobile both provide that browser API.
-- Only one ObsidiFormat view is kept open. Use the sidebar command before it is open, or drag the tab afterward.
+- Only one Payload Formatter view is kept open. Use the sidebar command before it is open, or drag the tab afterward.
 - Formatting rejects input longer than 20 × 1024 × 1024 characters. Saved editor text is capped separately at 1,000,000 characters per editor.
 - `manifest.json` names the author as Reza Ali and links the author URL to https://rezaalie.ir.
 
@@ -158,5 +158,5 @@ Before submission, confirm the plugin loads and unloads cleanly, that commands a
 - Full screen uses the view's Fullscreen API and may be ignored on mobile.
 - Downloading output depends on the webview accepting a generated file link. If that fails, use **Copy** or **Insert**.
 - Syntax highlighting is lexical and optional. It is not a replacement for an Obsidian code block language mode.
-- The in-view shortcuts only run while ObsidiFormat is focused, and Obsidian may already have claimed some of them.
+- The in-view shortcuts only run while Payload Formatter is focused, and Obsidian may already have claimed some of them.
 - Saved workspace text is not encrypted.
