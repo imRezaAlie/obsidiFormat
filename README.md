@@ -75,13 +75,13 @@ While the ObsidiFormat tab is focused:
 | --- | --- |
 | Open ObsidiFormat | Opens the workspace in a tab, or focuses it if it is already open. |
 | Open ObsidiFormat in sidebar | Opens it in the right sidebar when it is not already open. |
-| Format Selected JSON | Beautifies the selection as JSON and replaces that selection. |
-| Format Selected XML | Beautifies the selection as XML. |
-| Format Selected SOAP | Beautifies the selection as SOAP. |
-| Auto Format Selection | Detects the format, or uses the default formatter when detection is off. |
-| Minify Selected JSON | Compacts the selected JSON. |
-| Send Selection to ObsidiFormat | Loads the selection into the input editor. |
-| Insert ObsidiFormat Output | Inserts the output panel into the active Markdown editor. |
+| Format selected JSON | Beautifies the selection as JSON and replaces that selection. |
+| Format selected XML | Beautifies the selection as XML. |
+| Format selected SOAP | Beautifies the selection as SOAP. |
+| Auto format selection | Detects the format, or uses the default formatter when detection is off. |
+| Minify selected JSON | Compacts the selected JSON. |
+| Send selection to ObsidiFormat | Loads the selection into the input editor. |
+| Insert ObsidiFormat output | Inserts the output panel into the active Markdown editor. |
 
 Selection commands do nothing to the rest of the note. If parsing fails, the selection is kept and a notice explains the error.
 
@@ -126,10 +126,19 @@ Layout and editor behavior still needs a pass inside Obsidian on desktop and mob
 
 ## Release
 
-1. Bump `version` in `manifest.json`, `package.json`, and `versions.json`. The `versions.json` value is the minimum Obsidian version for that release.
+`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, version `1.0.0`, `minAppVersion` `1.4.0`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`.
+
+1. Bump `version` in `manifest.json`, `package.json`, and `versions.json`. The `versions.json` value is the minimum Obsidian version for that release. Use `x.y.z` with no `v` prefix.
 2. Run `npm test` and `npm run build`.
-3. Tag the commit and attach `main.js`, `manifest.json`, and `styles.css` to the GitHub release. The tag must match the manifest version, including the `v` prefix Obsidian expects (`1.0.0` in the manifest, often the tag `1.0.0`).
-4. To list the plugin in the community directory, open a pull request against `obsidianmd/obsidian-releases` with the repository URL, a release that contains those three files, and a README that describes what the plugin does.
+3. Commit, push `main`, then create an annotated tag that matches the manifest version:
+
+   ```bash
+   git tag -a 1.0.0 -m "1.0.0"
+   git push origin 1.0.0
+   ```
+
+   The GitHub Action builds the plugin and opens a draft release with `main.js`, `manifest.json`, and `styles.css`. In the repository settings, Actions needs read and write permission. Open the draft, add notes, and publish it.
+4. Sign in at [community.obsidian.md](https://community.obsidian.md), link the GitHub account that owns this repository, and add the plugin. The directory reads `manifest.json` from the default branch, then downloads the release whose tag matches `version`.
 
 Before submission, confirm the plugin loads and unloads cleanly, that commands are undoable, and that no network requests are made while formatting.
 
@@ -140,7 +149,7 @@ Before submission, confirm the plugin loads and unloads cleanly, that commands a
 - XML well-formedness uses the platform `DOMParser` after markup declarations have been rejected. Obsidian desktop and mobile both provide that browser API.
 - Only one ObsidiFormat view is kept open. Use the sidebar command before it is open, or drag the tab afterward.
 - Editor-content persistence is capped so `data.json` cannot grow to the in-memory 20 million character processing limit.
-- The author field is the project name because the standalone file did not name a maintainer.
+- `manifest.json` names the author as Reza Ali and links the author URL to https://rezaalie.ir.
 
 ## Known limitations
 
@@ -149,4 +158,3 @@ Before submission, confirm the plugin loads and unloads cleanly, that commands a
 - Syntax highlighting is lexical and optional. It is not a replacement for an Obsidian code block language mode.
 - The in-view shortcuts only run while ObsidiFormat is focused, and Obsidian may already have claimed some of them.
 - Saved workspace text is not encrypted.
-- The original standalone file is not loaded by the plugin.

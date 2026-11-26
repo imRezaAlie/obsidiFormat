@@ -9,7 +9,6 @@ export class ObsidiFormatSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl("h2", { text: "ObsidiFormat" });
     containerEl.createEl("p", {
       text: "Formatting runs locally inside Obsidian. Nothing is uploaded. Workspace options such as fonts, wrapping, and XML auto-decode are in the ObsidiFormat view settings.",
     });

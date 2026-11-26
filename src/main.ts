@@ -48,39 +48,39 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     });
     this.addCommand({
       id: "format-selected-json",
-      name: "Format Selected JSON",
+      name: "Format selected JSON",
       editorCallback: (editor) => this.formatInEditor(editor, "beautify", "json"),
     });
     this.addCommand({
       id: "format-selected-xml",
-      name: "Format Selected XML",
+      name: "Format selected XML",
       editorCallback: (editor) => this.formatInEditor(editor, "beautify", "xml"),
     });
     this.addCommand({
       id: "format-selected-soap",
-      name: "Format Selected SOAP",
+      name: "Format selected SOAP",
       editorCallback: (editor) => this.formatInEditor(editor, "beautify", "soap"),
     });
     this.addCommand({
       id: "auto-format-selection",
-      name: "Auto Format Selection",
+      name: "Auto format selection",
       editorCallback: (editor) => this.formatInEditor(editor, "beautify", selectedFormat(this.settings)),
     });
     this.addCommand({
       id: "minify-selected-json",
-      name: "Minify Selected JSON",
+      name: "Minify selected JSON",
       editorCallback: (editor) => this.formatInEditor(editor, "minify", "json"),
     });
     this.addCommand({
       id: "send-selection",
-      name: "Send Selection to ObsidiFormat",
+      name: "Send selection to ObsidiFormat",
       editorCallback: (editor) => {
         void this.sendSelection(editor);
       },
     });
     this.addCommand({
       id: "insert-output",
-      name: "Insert ObsidiFormat Output",
+      name: "Insert ObsidiFormat output",
       callback: () => this.insertOutput(),
     });
 
@@ -106,7 +106,6 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
 
   onunload(): void {
     this.listeners.clear();
-    this.app.workspace.detachLeavesOfType(VIEW_TYPE);
   }
 
   async saveSettings(): Promise<void> {
