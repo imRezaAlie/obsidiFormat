@@ -1,32 +1,26 @@
-/** Copy text on-device. Returns how the copy was completed so the caller can fall back. */
+/** Copy text on-device. The caller handles manual copy if access is unavailable. */
 export async function copyText(text: string): Promise<"clipboard" | "fallback"> {
   try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-      return "clipboard";
-    }
+    const clipboard = navigator.clipboard;
+    if (!clipboard?.writeText) return "fallback";
+
+    await clipboard.writeText(text);
+    return "clipboard";
   } catch {
-    /* Permission can fail inside the desktop shell; try the legacy path. */
+    // Clipboard access may be unavailable or denied by the host.
+    return "fallback";
   }
-  const field = document.createElement("textarea");
-  field.value = text;
-  field.setAttribute("readonly", "");
-  field.className = "payload-formatter-clipboard";
-  document.body.append(field);
-  field.select();
-  let ok = false;
-  try {
-    ok = document.execCommand("copy");
-  } catch {
-    ok = false;
-  } finally {
-    field.remove();
-  }
-  if (!ok) return "fallback";
-  return "clipboard";
 }
 
+/** Read clipboard text only when the user requests a paste. */
 export async function readClipboard(): Promise<string | null> {
-  if (!navigator.clipboard?.readText) return null;
-  return navigator.clipboard.readText();
+  try {
+    const clipboard = navigator.clipboard;
+    if (!clipboard?.readText) return null;
+
+    return await clipboard.readText();
+  } catch {
+    // Let the caller focus the input and offer manual paste.
+    return null;
+  }
 }

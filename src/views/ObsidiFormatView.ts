@@ -114,14 +114,14 @@ function bytesLabel(bytes: number): string {
 }
 
 function button(parent: HTMLElement, className: string, label: string, action: string, iconName?: string, editor?: EditorSide): HTMLButtonElement {
-  const node = document.createElement("button");
+  const node = createEl("button");
   node.type = "button";
   node.className = className;
   node.dataset.action = action;
   if (editor) node.dataset.editor = editor;
   if (iconName) icon(node, iconName);
   if (label) {
-    const text = document.createElement("span");
+    const text = createSpan();
     text.textContent = label;
     node.append(text);
   }
@@ -218,7 +218,7 @@ export class ObsidiFormatView extends ItemView {
     this.contentEl.empty();
     this.contentEl.addClass("obsidi-format-view");
     this.root = this.contentEl.createDiv({ cls: "obsidi-format" });
-    const sprite = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const sprite = createSvg("svg");
     mountIcons(sprite);
     this.root.append(sprite);
     this.buildHeader();
@@ -228,7 +228,7 @@ export class ObsidiFormatView extends ItemView {
     this.buildMessage();
     this.buildStatus();
     this.buildDialogs();
-    this.fileInput = document.createElement("input");
+    this.fileInput = createEl("input");
     this.fileInput.type = "file";
     this.fileInput.hidden = true;
     this.fileInput.accept = ".json,.xml,.soap,.txt,.request,.response,application/json,application/xml,text/xml,text/plain";
@@ -290,28 +290,28 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private buildHeader(): void {
-    const header = document.createElement("header");
+    const header = createEl("header");
     header.className = "ff-header";
-    const brand = document.createElement("div");
+    const brand = createDiv();
     brand.className = "ff-brand";
-    const mark = document.createElement("div");
+    const mark = createDiv();
     mark.className = "ff-brand-icon";
     icon(mark, "braces");
-    const titles = document.createElement("div");
-    const heading = document.createElement("h1");
-    heading.append("Payload", Object.assign(document.createElement("span"), { textContent: "Formatter" }));
-    const subtitle = document.createElement("p");
+    const titles = createDiv();
+    const heading = createEl("h1");
+    heading.append("Payload", createSpan({ text: "Formatter" }));
+    const subtitle = createEl("p");
     subtitle.textContent = "FORMAT  ·  VALIDATE  ·  TRANSFORM";
     titles.append(heading, subtitle);
     brand.append(mark, titles);
-    const end = document.createElement("div");
+    const end = createDiv();
     end.className = "ff-header-end";
-    const privacy = document.createElement("span");
+    const privacy = createSpan();
     privacy.className = "ff-privacy";
     privacy.title = "No network requests. All code is processed on this device.";
     icon(privacy, "shield");
-    privacy.append(Object.assign(document.createElement("span"), { textContent: "Local & private" }));
-    const version = document.createElement("span");
+    privacy.append(createSpan({ text: "Local & private" }));
+    const version = createSpan();
     version.className = "ff-version";
     version.textContent = "v1.0.3";
     const help = button(end, "ff-icon-button", "", "help", "keyboard");
@@ -323,9 +323,9 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private buildToolbar(): void {
-    const bar = document.createElement("div");
+    const bar = createDiv();
     bar.className = "ff-toolbar";
-    const formatGroup = document.createElement("div");
+    const formatGroup = createDiv();
     formatGroup.className = "ff-group";
     formatGroup.append(this.labeledSelect("Format", "ff-format-select", [
       ["auto", "Auto detect"],
@@ -335,17 +335,17 @@ export class ObsidiFormatView extends ItemView {
     ]));
     this.formatSelect = formatGroup.querySelector("select") as HTMLSelectElement;
 
-    const actions = document.createElement("div");
+    const actions = createDiv();
     actions.className = "ff-group";
     const beautify = button(actions, "ff-button mod-cta", "Beautify", "beautify", "format");
-    const kbd = document.createElement("kbd");
+    const kbd = createEl("kbd");
     kbd.textContent = "Ctrl ↵";
     beautify.append(kbd);
     beautify.title = "Beautify (Ctrl+Enter)";
     button(actions, "ff-button", "Minify", "minify", "minify").title = "Minify (Ctrl+Shift+M)";
     button(actions, "ff-button", "Validate", "validate", "check").title = "Validate input";
 
-    const files = document.createElement("div");
+    const files = createDiv();
     files.className = "ff-group";
     button(files, "ff-button", "Copy", "copy", "copy").title = "Copy output (Ctrl+Shift+C)";
     button(files, "ff-button", "Clear", "clear", "trash").title = "Clear both editors";
@@ -353,7 +353,7 @@ export class ObsidiFormatView extends ItemView {
     button(files, "ff-button", "Download", "download", "download").title = "Download output";
     button(files, "ff-button", "Insert", "insert", "note").title = "Insert output into the active note";
 
-    const tools = document.createElement("div");
+    const tools = createDiv();
     tools.className = "ff-group ff-group-end";
     tools.append(this.labeledSelect("Indent", "ff-indent-select", [
       ["2", "2 spaces"],
@@ -362,7 +362,7 @@ export class ObsidiFormatView extends ItemView {
       ["tab", "Tab"],
     ]));
     this.indentSelect = tools.querySelector("select") as HTMLSelectElement;
-    const zoom = document.createElement("div");
+    const zoom = createDiv();
     zoom.className = "ff-zoom";
     zoom.setAttribute("aria-label", "Active editor zoom");
     button(zoom, "ff-icon-button", "", "zoom-out", "minus").setAttribute("aria-label", "Zoom out");
@@ -379,27 +379,27 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private buildWorkspaceHeading(): void {
-    const row = document.createElement("div");
+    const row = createDiv();
     row.className = "ff-workspace-head";
-    const title = document.createElement("div");
+    const title = createDiv();
     title.className = "ff-workspace-title";
-    const dot = document.createElement("span");
+    const dot = createSpan();
     dot.className = "ff-live-dot";
-    title.append(dot, document.createTextNode("WORKSPACE"), Object.assign(document.createElement("span"), { className: "ff-divider", textContent: "/" }));
-    this.workspaceMode = document.createElement("span");
+    title.append(dot, "WORKSPACE", createSpan({ cls: "ff-divider", text: "/" }));
+    this.workspaceMode = createSpan();
     this.workspaceMode.className = "ff-mode";
     this.workspaceMode.textContent = "Auto detect";
     title.append(this.workspaceMode);
-    const options = document.createElement("div");
+    const options = createDiv();
     options.className = "ff-workspace-options";
-    const label = document.createElement("label");
+    const label = createEl("label");
     label.className = "ff-toggle";
     label.title = "Format automatically after edits";
-    this.autoFormatInput = document.createElement("input");
+    this.autoFormatInput = createEl("input");
     this.autoFormatInput.type = "checkbox";
-    const switchUi = document.createElement("span");
+    const switchUi = createSpan();
     switchUi.className = "ff-switch";
-    label.append(this.autoFormatInput, switchUi, document.createTextNode("Auto format"));
+    label.append(this.autoFormatInput, switchUi, "Auto format");
     options.append(label);
     const swap = button(options, "ff-text-button", "Swap", "swap", "swap");
     swap.title = "Swap input and output";
@@ -408,7 +408,7 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private buildWorkspace(): void {
-    this.workspace = document.createElement("div");
+    this.workspace = createDiv();
     this.workspace.className = "ff-workspace";
     this.workspace.setAttribute("aria-label", "Code editors");
     this.workspace.append(this.panel("input", "Raw Input", "01"), this.makeSplitter(), this.panel("output", "Formatted Output", "02"));
@@ -416,23 +416,23 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private panel(side: EditorSide, title: string, index: string): HTMLElement {
-    const section = document.createElement("section");
+    const section = createEl("section");
     section.className = `ff-panel ff-panel-${side}`;
-    const head = document.createElement("div");
+    const head = createDiv();
     head.className = "ff-panel-head";
-    const heading = document.createElement("div");
+    const heading = createDiv();
     heading.className = "ff-panel-title";
-    const idx = document.createElement("span");
+    const idx = createSpan();
     idx.className = "ff-index";
     idx.textContent = index;
-    const h = document.createElement("h2");
+    const h = createEl("h2");
     h.textContent = title;
-    const pill = document.createElement("span");
+    const pill = createSpan();
     pill.className = "ff-pill";
     pill.textContent = "AUTO";
     this.pills[side] = pill;
     heading.append(idx, h, pill);
-    const actions = document.createElement("div");
+    const actions = createDiv();
     actions.className = "ff-panel-actions";
     if (side === "input") button(actions, "ff-icon-button", "", "paste", "paste", side).setAttribute("aria-label", "Paste from clipboard");
     else button(actions, "ff-icon-button", "", "copy", "copy", side).setAttribute("aria-label", "Copy output");
@@ -444,13 +444,13 @@ export class ObsidiFormatView extends ItemView {
     full.setAttribute("aria-label", `Maximize ${side} editor`);
     head.append(heading, actions);
 
-    const sub = document.createElement("div");
+    const sub = createDiv();
     sub.className = "ff-subbar";
     if (side === "input") {
-      const sample = document.createElement("label");
+      const sample = createEl("label");
       sample.className = "ff-sample";
       icon(sample, "file");
-      this.sampleSelect = document.createElement("select");
+      this.sampleSelect = createEl("select");
       this.sampleSelect.title = "Load sample data";
       for (const [value, text] of [
         ["", "Load sample…"],
@@ -464,7 +464,7 @@ export class ObsidiFormatView extends ItemView {
         ["embedded-soap", "SOAP with embedded XML"],
         ["embedded-json", "SOAP with embedded JSON"],
       ] as const) {
-        const option = document.createElement("option");
+        const option = createEl("option");
         option.value = value;
         option.textContent = text;
         this.sampleSelect.append(option);
@@ -472,7 +472,7 @@ export class ObsidiFormatView extends ItemView {
       sample.append(this.sampleSelect);
       sub.append(sample);
     } else {
-      const transforms = document.createElement("div");
+      const transforms = createDiv();
       transforms.className = "ff-transforms";
       button(transforms, "ff-text-button", "XML Tools", "xml-tools", "code").title = "XML entity and embedded payload tools";
       button(transforms, "ff-text-button", "Escape", "escape").title = "Escape input as a JSON string";
@@ -480,57 +480,57 @@ export class ObsidiFormatView extends ItemView {
       button(transforms, "ff-text-button", "Decode JSON", "decode", "code").title = "Decode a string into a formatted JSON object or array";
       sub.append(transforms);
     }
-    const right = document.createElement("div");
+    const right = createDiv();
     right.className = "ff-subbar-right";
     button(right, "ff-icon-button ff-tiny", "", "fold", "fold", side).setAttribute("aria-label", `Fold all ${side} nodes`);
     button(right, "ff-icon-button ff-tiny", "", "unfold", "unfold", side).setAttribute("aria-label", `Unfold all ${side} nodes`);
-    const size = document.createElement("span");
+    const size = createSpan();
     size.className = "ff-size";
     size.textContent = "0 B";
     this.sizes[side] = size;
     right.append(size);
     sub.append(right);
 
-    const body = document.createElement("div");
+    const body = createDiv();
     body.className = "ff-editor-body";
     body.dataset.editor = side;
-    const hint = document.createElement("div");
+    const hint = createDiv();
     hint.className = side === "input" ? "ff-hint" : "ff-hint ff-hint-output";
     if (side === "input") {
-      hint.append(Object.assign(document.createElement("span"), { textContent: "Paste JSON, XML or SOAP here" }), Object.assign(document.createElement("span"), { textContent: "or drop a file to begin." }));
-      this.dropOverlay = document.createElement("div");
+      hint.append(createSpan({ text: "Paste JSON, XML or SOAP here" }), createSpan({ text: "or drop a file to begin." }));
+      this.dropOverlay = createDiv();
       this.dropOverlay.className = "ff-drop";
       icon(this.dropOverlay, "upload");
-      const strong = document.createElement("strong");
+      const strong = createEl("strong");
       strong.textContent = "Drop your file here";
-      const note = document.createElement("span");
+      const note = createSpan();
       note.textContent = "JSON / XML / SOAP / TXT";
       this.dropOverlay.append(strong, note);
       body.append(this.dropOverlay);
     } else {
-      const glyph = document.createElement("div");
+      const glyph = createDiv();
       glyph.className = "ff-empty-icon";
       icon(glyph, "braces");
-      const strong = document.createElement("strong");
+      const strong = createEl("strong");
       strong.textContent = "Formatted code appears here";
-      const note = document.createElement("span");
+      const note = createSpan();
       note.textContent = "Run Beautify, Minify or a JSON / XML tool.";
       hint.append(glyph, strong, note);
     }
     this.hints[side] = hint;
     body.append(hint);
 
-    const footer = document.createElement("div");
+    const footer = createDiv();
     footer.className = "ff-footer";
-    const left = document.createElement("span");
-    const dot = document.createElement("span");
+    const left = createSpan();
+    const dot = createSpan();
     dot.className = "ff-dot is-ready";
-    const note = document.createElement("span");
+    const note = createSpan();
     note.textContent = side === "input" ? "Ready for input" : "Awaiting formatting";
     this.dots[side] = dot;
     this.notes[side] = note;
     left.append(dot, note);
-    const count = document.createElement("span");
+    const count = createSpan();
     count.textContent = "1 line · 0 chars";
     this.counts[side] = count;
     footer.append(left, count);
@@ -539,7 +539,7 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private makeSplitter(): HTMLElement {
-    this.splitter = document.createElement("div");
+    this.splitter = createDiv();
     this.splitter.className = "ff-splitter";
     this.splitter.tabIndex = 0;
     this.splitter.setAttribute("role", "separator");
@@ -548,36 +548,36 @@ export class ObsidiFormatView extends ItemView {
     this.splitter.setAttribute("aria-valuemin", "15");
     this.splitter.setAttribute("aria-valuemax", "85");
     this.splitter.setAttribute("aria-valuenow", "50");
-    const bar = document.createElement("span");
+    const bar = createSpan();
     this.splitter.append(bar);
     return this.splitter;
   }
 
   private buildMessage(): void {
-    this.messageBar = document.createElement("div");
+    this.messageBar = createDiv();
     this.messageBar.className = "ff-message is-info";
     this.messageBar.setAttribute("role", "status");
     this.messageIcon = icon(this.messageBar, "alert");
-    this.messageText = document.createElement("span");
+    this.messageText = createSpan();
     this.messageText.textContent = "Ready. Paste code or load a sample to get started.";
-    this.jumpError = document.createElement("button");
+    this.jumpError = createEl("button");
     this.jumpError.type = "button";
     this.jumpError.className = "ff-text-button";
     this.jumpError.textContent = "Go to error";
     this.jumpError.hidden = true;
-    const dismiss = button(document.createElement("div"), "ff-icon-button", "", "dismiss", "close");
+    const dismiss = button(createDiv(), "ff-icon-button", "", "dismiss", "close");
     dismiss.setAttribute("aria-label", "Dismiss message");
     this.messageBar.append(this.messageText, this.jumpError, dismiss);
     this.root.append(this.messageBar);
   }
 
   private buildStatus(): void {
-    const bar = document.createElement("footer");
+    const bar = createEl("footer");
     bar.className = "ff-status";
-    const left = document.createElement("div");
-    const right = document.createElement("div");
+    const left = createDiv();
+    const right = createDiv();
     this.statusScope = this.statusItem(left, "INPUT");
-    this.statusValidation = document.createElement("span");
+    this.statusValidation = createSpan();
     this.statusValidation.textContent = "Ready";
     left.append(this.statusValidation);
     this.statusLanguage = this.statusItem(left, "Auto");
@@ -588,17 +588,17 @@ export class ObsidiFormatView extends ItemView {
     this.statusIndent = this.statusItem(right, "Spaces: 2");
     this.statusZoom = this.statusItem(right, "100%");
     this.statusTime = this.statusItem(right, "— ms");
-    const local = document.createElement("span");
+    const local = createSpan();
     local.className = "ff-local";
     icon(local, "shield");
-    local.append(document.createTextNode("Offline"));
+    local.append("Offline");
     right.append(local);
     bar.append(left, right);
     this.root.append(bar);
   }
 
   private statusItem(parent: HTMLElement, text: string): HTMLElement {
-    const span = document.createElement("span");
+    const span = createSpan();
     span.textContent = text;
     parent.append(span);
     return span;
@@ -644,15 +644,15 @@ export class ObsidiFormatView extends ItemView {
       ["Full screen", "F11"],
       ["Exit maximized panel", "Esc"],
     ] as const) {
-      const row = document.createElement("div");
-      const name = document.createElement("span");
+      const row = createDiv();
+      const name = createSpan();
       name.textContent = label;
-      const kbd = document.createElement("kbd");
+      const kbd = createEl("kbd");
       kbd.textContent = keys;
       row.append(name, kbd);
       body.append(row);
     }
-    const note = document.createElement("p");
+    const note = createEl("p");
     note.textContent = "On macOS, Cmd also works for Ctrl shortcuts while Payload Formatter is focused. Drag this tab into a sidebar to dock it. These shortcuts do not change the rest of the note.";
     body.append(note);
     return dialog;
@@ -670,20 +670,20 @@ export class ObsidiFormatView extends ItemView {
       ["xml-encode", "code", "XML Encode", "Escape ampersands, angle brackets, quotes and apostrophes for XML text.", false],
     ];
     for (const [action, iconName, title, detail, safe] of tools) {
-      const card = document.createElement("button");
+      const card = createEl("button");
       card.type = "button";
       card.className = safe ? "ff-tool is-safe" : "ff-tool";
       card.dataset.action = action;
       icon(card, iconName);
-      const copy = document.createElement("span");
-      const strong = document.createElement("strong");
+      const copy = createSpan();
+      const strong = createEl("strong");
       strong.textContent = title;
-      const small = document.createElement("small");
+      const small = createEl("small");
       small.textContent = detail;
       copy.append(strong, small);
       card.append(copy);
       if (safe) {
-        const tag = document.createElement("span");
+        const tag = createSpan();
         tag.className = "ff-tool-tag";
         tag.textContent = "SAFE";
         card.append(tag);
@@ -694,26 +694,26 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private dialogShell(name: string, eyebrow: string, title: string): HTMLDialogElement {
-    const dialog = document.createElement("dialog");
+    const dialog = createEl("dialog");
     dialog.className = "ff-dialog";
     dialog.dataset.dialog = name;
-    const head = document.createElement("div");
+    const head = createDiv();
     head.className = "ff-dialog-head";
-    const titles = document.createElement("div");
-    const eye = document.createElement("span");
+    const titles = createDiv();
+    const eye = createSpan();
     eye.className = "ff-eyebrow";
     eye.textContent = eyebrow;
-    const h = document.createElement("h2");
+    const h = createEl("h2");
     h.textContent = title;
     titles.append(eye, h);
-    const close = button(document.createElement("div"), "ff-icon-button", "", "noop", "close");
+    const close = button(createDiv(), "ff-icon-button", "", "noop", "close");
     close.dataset.close = name;
     close.removeAttribute("data-action");
     close.setAttribute("aria-label", `Close ${title}`);
     head.append(titles, close);
-    const body = document.createElement("div");
+    const body = createDiv();
     body.className = "ff-dialog-body";
-    const foot = document.createElement("div");
+    const foot = createDiv();
     foot.className = "ff-dialog-foot";
     if (name !== "settings") {
       const done = button(foot, "ff-button", "Close", "noop");
@@ -725,20 +725,20 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private checkRow(parent: HTMLElement, title: string, description: string): HTMLInputElement {
-    const row = document.createElement("div");
+    const row = createDiv();
     row.className = "ff-setting-row";
-    const copy = document.createElement("div");
-    const strong = document.createElement("strong");
+    const copy = createDiv();
+    const strong = createEl("strong");
     strong.textContent = title;
-    const p = document.createElement("p");
+    const p = createEl("p");
     p.textContent = description;
     copy.append(strong, p);
-    const label = document.createElement("label");
+    const label = createEl("label");
     label.className = "ff-toggle";
-    const input = document.createElement("input");
+    const input = createEl("input");
     input.type = "checkbox";
     input.setAttribute("aria-label", title);
-    const ui = document.createElement("span");
+    const ui = createSpan();
     ui.className = "ff-switch";
     label.append(input, ui);
     row.append(copy, label);
@@ -747,23 +747,23 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private numberRow(parent: HTMLElement, title: string, description: string): HTMLInputElement {
-    const row = document.createElement("div");
+    const row = createDiv();
     row.className = "ff-setting-row";
-    const copy = document.createElement("div");
-    const strong = document.createElement("strong");
+    const copy = createDiv();
+    const strong = createEl("strong");
     strong.textContent = title;
-    const p = document.createElement("p");
+    const p = createEl("p");
     p.textContent = description;
     copy.append(strong, p);
-    const label = document.createElement("label");
+    const label = createEl("label");
     label.className = "ff-number";
-    const input = document.createElement("input");
+    const input = createEl("input");
     input.type = "number";
     input.min = "10";
     input.max = "40";
     input.step = "1";
     input.setAttribute("aria-label", title);
-    const unit = document.createElement("span");
+    const unit = createSpan();
     unit.textContent = "px";
     label.append(input, unit);
     row.append(copy, label);
@@ -772,14 +772,14 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private labeledSelect(label: string, className: string, options: Array<[string, string]>): HTMLLabelElement {
-    const field = document.createElement("label");
+    const field = createEl("label");
     field.className = `ff-select ${className}`;
-    const span = document.createElement("span");
+    const span = createSpan();
     span.textContent = label;
-    const select = document.createElement("select");
+    const select = createEl("select");
     select.setAttribute("aria-label", label);
     for (const [value, text] of options) {
-      const option = document.createElement("option");
+      const option = createEl("option");
       option.value = value;
       option.textContent = text;
       select.append(option);
@@ -1283,7 +1283,7 @@ export class ObsidiFormatView extends ItemView {
       const ch = clamp((formatError.column ?? 1) - 1, 0, cm.getLine(line).length);
       state.errorLine = line;
       cm.addLineClass(line, "background", "error-line");
-      const marker = document.createElement("div");
+      const marker = createDiv();
       marker.className = "ff-error-gutter";
       marker.textContent = "!";
       marker.title = formatError.message;
@@ -1450,7 +1450,7 @@ export class ObsidiFormatView extends ItemView {
     let exportText = text;
     if (ext === "xml") exportText = text.replace(/^(\uFEFF?<\?xml\b[^?]*?\bencoding\s*=\s*)(['"])[^'"]+\2/i, "$1$2UTF-8$2");
     const url = URL.createObjectURL(new Blob([exportText], { type: `${type};charset=utf-8` }));
-    const link = document.createElement("a");
+    const link = createEl("a");
     link.href = url;
     link.download = `${base}-formatted.${ext}`;
     this.root.append(link);
