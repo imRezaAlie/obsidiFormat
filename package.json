@@ -1,6 +1,6 @@
 {
   "name": "obsidi-format",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Format, beautify, and validate JSON, XML, and SOAP.",
   "main": "main.js",
   "scripts": {
@@ -37,7 +37,6 @@
     "@types/codemirror": "^5.60.16",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.10.2",
-    "builtin-modules": "^4.0.0",
     "esbuild": "^0.24.2",
     "jsdom": "^25.0.1",
     "obsidian": "^1.7.2",

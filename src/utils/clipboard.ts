@@ -11,9 +11,7 @@ export async function copyText(text: string): Promise<"clipboard" | "fallback"> 
   const field = document.createElement("textarea");
   field.value = text;
   field.setAttribute("readonly", "");
-  field.style.position = "fixed";
-  field.style.left = "-9999px";
-  field.style.top = "0";
+  field.className = "payload-formatter-clipboard";
   document.body.append(field);
   field.select();
   let ok = false;

@@ -37,7 +37,6 @@ import {
   VIEW_TYPE,
   type EditorSide,
   type FormatAction,
-  type FormatResult,
   type OutputKind,
 } from "../types";
 import { copyText, readClipboard } from "../utils/clipboard";
@@ -79,7 +78,7 @@ function installModes(): void {
         let next = style ?? "";
         if (language === "json") {
           if (classes.includes("atom") && value === "null") next = `${next} null-literal`.trim();
-          if (!style && /^[{}\[\],:]$/.test(value)) next = "punctuation";
+          if (!style && "{}[],:".includes(value)) next = "punctuation";
         } else if ((classes.includes("tag") && !classes.includes("bracket")) || classes.includes("attribute")) {
           if (value.includes(":") || value === "xmlns") next = `${next} xml-namespace`.trim();
           if (language === "soap" && classes.includes("tag") && /^(?:[^:]+:)?(?:Envelope|Header|Body|Fault)$/.test(value)) {
@@ -314,7 +313,7 @@ export class ObsidiFormatView extends ItemView {
     privacy.append(Object.assign(document.createElement("span"), { textContent: "Local & private" }));
     const version = document.createElement("span");
     version.className = "ff-version";
-    version.textContent = "v1.0.1";
+    version.textContent = "v1.0.2";
     const help = button(end, "ff-icon-button", "", "help", "keyboard");
     help.setAttribute("aria-label", "Keyboard shortcuts");
     help.title = "Keyboard shortcuts";
@@ -1063,7 +1062,7 @@ export class ObsidiFormatView extends ItemView {
     else if (mod && event.key === "Enter") action = "beautify";
     else if (mod && event.shiftKey && key === "m") action = "minify";
     else if (mod && event.shiftKey && key === "c") action = "copy";
-    else if (mod && !event.shiftKey && key === "f" && !(target instanceof Element && target.closest(".CodeMirror-dialog"))) action = "search";
+    else if (mod && !event.shiftKey && key === "f" && !(target.instanceOf(Element) && target.closest(".CodeMirror-dialog"))) action = "search";
     else if (mod && (key === "+" || key === "=" || event.code === "NumpadAdd")) action = "zoom-in";
     else if (mod && (key === "-" || event.code === "NumpadSubtract")) action = "zoom-out";
     else if (mod && key === "0") action = "zoom-reset";
@@ -1447,7 +1446,7 @@ export class ObsidiFormatView extends ItemView {
     const kind = this.outputKind || detect(text);
     const ext = kind === "json" ? "json" : kind === "soap" || kind === "xml" ? "xml" : "txt";
     const type = ext === "json" ? "application/json" : ext === "xml" ? "application/xml" : "text/plain";
-    const base = (this.sourceName.replace(/\.[^.]+$/, "") || "payload").replace(/[^\w.\-]+/g, "_").slice(0, 100);
+    const base = (this.sourceName.replace(/\.[^.]+$/, "") || "payload").replace(/[^\w.-]+/g, "_").slice(0, 100);
     let exportText = text;
     if (ext === "xml") exportText = text.replace(/^(\uFEFF?<\?xml\b[^?]*?\bencoding\s*=\s*)(['"])[^'"]+\2/i, "$1$2UTF-8$2");
     const url = URL.createObjectURL(new Blob([exportText], { type: `${type};charset=utf-8` }));
@@ -1517,7 +1516,7 @@ export class ObsidiFormatView extends ItemView {
       const mode = this.modeFor(side, language);
       if (cm.getOption("mode") !== mode) cm.setOption("mode", mode);
       const matchTags = this.plugin.settings.syntaxHighlighting && (language === "xml" || language === "soap") ? { bothTags: true } : false;
-      cm.setOption("matchTags", matchTags as unknown as boolean);
+      cm.setOption("matchTags", matchTags);
     }
     const pill = this.pills[side];
     if (pill) {
@@ -1748,7 +1747,7 @@ export class ObsidiFormatView extends ItemView {
     this.workspace.classList.toggle("is-max-input", this.maxPanel === "input");
     this.workspace.classList.toggle("is-max-output", this.maxPanel === "output");
     for (const el of this.root.querySelectorAll('[data-action="panel-full"]')) {
-      if (!(el instanceof HTMLButtonElement)) continue;
+      if (!el.instanceOf(HTMLButtonElement)) continue;
       const on = this.maxPanel === el.dataset.editor;
       const svg = el.querySelector("svg");
       if (svg instanceof SVGSVGElement) setIcon(svg, on ? "collapse" : "expand");
@@ -1888,8 +1887,8 @@ export class ObsidiFormatView extends ItemView {
   }
 
   private refresh(): void {
-    cancelAnimationFrame(this.pendingFrame);
-    this.pendingFrame = requestAnimationFrame(() => {
+    window.cancelAnimationFrame(this.pendingFrame);
+    this.pendingFrame = window.requestAnimationFrame(() => {
       for (const cm of Object.values(this.editors)) {
         cm.refresh();
         cm.setSize("100%", "100%");

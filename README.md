@@ -39,7 +39,7 @@ Payload Formatter formats, beautifies, validates, and minifies JSON, XML, and SO
    - `styles.css`
 
 4. In **Settings → Community plugins**, turn off Restricted mode, then enable **Payload Formatter**. Reload Obsidian if the plugin does not appear.
-5. Click the braces icon in the ribbon, or run **Open Payload Formatter**.
+5. Click the braces icon in the ribbon, or run **Open**.
 
 To build those files yourself:
 
@@ -75,15 +75,15 @@ While the Payload Formatter tab is focused:
 
 | Command | What it does |
 | --- | --- |
-| Open Payload Formatter | Opens the workspace in a tab, or focuses it if it is already open. |
-| Open Payload Formatter in sidebar | Opens it in the right sidebar when it is not already open. |
+| Open | Opens the workspace in a tab, or focuses it if it is already open. |
+| Open in sidebar | Opens it in the right sidebar when it is not already open. |
 | Format selected JSON | Beautifies the selection as JSON and replaces that selection. |
 | Format selected XML | Beautifies the selection as XML. |
 | Format selected SOAP | Beautifies the selection as SOAP. |
 | Auto format selection | Detects the format, or uses the default formatter when detection is off. |
 | Minify selected JSON | Compacts the selected JSON. |
-| Send selection to Payload Formatter | Loads the selection into the input editor. |
-| Insert Payload Formatter output | Inserts the output into a source-mode Markdown note. It does not save the note. |
+| Send selection | Loads the selection into the input editor. |
+| Insert output | Inserts the output into a source-mode Markdown note. It does not save the note. |
 
 Selection commands do nothing to the rest of the note. If parsing fails, the selection is kept and a notice explains the error.
 
@@ -128,15 +128,15 @@ Layout and editor behavior still needs a pass inside Obsidian on desktop and mob
 
 ## Release
 
-`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, name `Payload Formatter`, version `1.0.1`, `minAppVersion` `1.4.0`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`. The description does not repeat the host application name.
+`manifest.json` uses the [Obsidian manifest schema](https://docs.obsidian.md/Reference/Manifest): `id` `obsidi-format`, name `Payload Formatter`, version `1.0.2`, `minAppVersion` `1.7.2`, author Reza Ali, and `authorUrl` `https://rezaalie.ir`. The description does not repeat the host application name.
 
 1. Bump `version` in `manifest.json`, `package.json`, and `versions.json`. The `versions.json` value is the minimum Obsidian version for that release. Use `x.y.z` with no `v` prefix.
 2. Run `npm test` and `npm run build`.
 3. Commit, push `main`, then create an annotated tag that matches the manifest version:
 
    ```bash
-   git tag -a 1.0.1 -m "1.0.1"
-   git push origin 1.0.1
+   git tag -a 1.0.2 -m "1.0.2"
+   git push origin 1.0.2
    ```
 
    The GitHub Action builds the plugin and publishes the release with `main.js`, `manifest.json`, and `styles.css` attached as release assets. In the repository settings, Actions needs read and write permission. The directory rejects a release that does not have those files attached.
@@ -146,7 +146,7 @@ Before submission, confirm the plugin loads and unloads cleanly, that commands a
 
 ## Assumptions
 
-- Minimum Obsidian version is 1.4.0 because the view uses workspace leaves, the editor selection API, and theme CSS variables that have been stable since that generation.
+- Minimum Obsidian version is 1.7.2 because opening the view uses `Workspace.revealLeaf`, which arrived in that version.
 - CodeMirror 5 is bundled for the Payload Formatter editors so folding, search, and bracket matching work there. It is themed with Obsidian CSS variables and is not the editor used for Markdown notes.
 - XML well-formedness uses the platform `DOMParser` after markup declarations have been rejected. Obsidian desktop and mobile both provide that browser API.
 - Only one Payload Formatter view is kept open. Use the sidebar command before it is open, or drag the tab afterward.

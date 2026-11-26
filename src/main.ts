@@ -21,7 +21,7 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
   private lastMarkdown: MarkdownView | null = null;
 
   async onload(): Promise<void> {
-    const raw = await this.loadData();
+    const raw = (await this.loadData()) as unknown;
     this.settings = sanitizeSettings(raw);
     if (this.shouldScrubStoredContent(raw)) await this.saveData(this.settings);
 
@@ -33,15 +33,15 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     });
 
     this.addCommand({
-      id: "open-obsidi-format",
-      name: "Open Payload Formatter",
+      id: "open",
+      name: "Open",
       callback: () => {
         void this.openView("tab");
       },
     });
     this.addCommand({
-      id: "open-obsidi-format-sidebar",
-      name: "Open Payload Formatter in sidebar",
+      id: "open-sidebar",
+      name: "Open in sidebar",
       callback: () => {
         void this.openView("sidebar");
       },
@@ -73,14 +73,14 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     });
     this.addCommand({
       id: "send-selection",
-      name: "Send selection to Payload Formatter",
+      name: "Send selection",
       editorCallback: (editor) => {
         void this.sendSelection(editor);
       },
     });
     this.addCommand({
       id: "insert-output",
-      name: "Insert Payload Formatter output",
+      name: "Insert output",
       callback: () => this.insertOutput(),
     });
 

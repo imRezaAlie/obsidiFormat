@@ -338,7 +338,7 @@
 .obsidi-format .ff-editor-body > .CodeMirror {
   position: absolute;
   inset: 0;
-  height: 100% !important;
+  height: 100%;
   width: 100%;
   font-family: var(--ff-mono);
   line-height: 1.55;
@@ -538,8 +538,8 @@
 .obsidi-format .cm-s-devtool .cm-bracket,
 .obsidi-format .cm-s-devtool .cm-punctuation { color: var(--code-punctuation, var(--text-muted)); }
 .obsidi-format .cm-s-devtool .cm-error,
-.obsidi-format .cm-s-devtool .cm-error-mark { color: var(--text-error); text-decoration: underline wavy var(--text-error); }
-.obsidi-format .cm-s-devtool .error-line { background: var(--background-modifier-error) !important; }
+.obsidi-format .cm-s-devtool .cm-error-mark { color: var(--text-error); text-decoration: underline; }
+.obsidi-format .CodeMirror .cm-s-devtool .error-line { background: var(--background-modifier-error); }
 .obsidi-format .ff-error-gutter { color: var(--text-error); font-weight: 750; text-align: center; width: 12px; }
 .obsidi-format .CodeMirror-dialog {
   background: var(--background-secondary);
@@ -574,4 +574,10 @@
   .obsidi-format .ff-button span { display: none; }
   .obsidi-format .ff-button { width: 32px; padding: 0; }
   .obsidi-format .ff-workspace-head { align-items: flex-start; flex-direction: column; }
+}
+
+textarea.payload-formatter-clipboard {
+  position: fixed;
+  left: -9999px;
+  top: 0;
 }
