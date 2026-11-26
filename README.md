@@ -4,6 +4,8 @@ Website: [rezaalie.ir](https://rezaalie.ir)
 
 Repository: [github.com/imRezaAlie/obsidiFormat](https://github.com/imRezaAlie/obsidiFormat)
 
+License: [MIT](./LICENSE). Copyright (c) 2026 Reza Ali.
+
 ObsidiFormat formats, beautifies, validates, and minifies JSON, XML, and SOAP inside Obsidian. Processing stays on the device. The plugin does not upload note contents or call an external formatter.
 
 ## Features
@@ -36,7 +38,7 @@ ObsidiFormat formats, beautifies, validates, and minifies JSON, XML, and SOAP in
    - `manifest.json`
    - `styles.css`
 
-4. Reload Obsidian, open **Settings → Community plugins**, and enable **ObsidiFormat**.
+4. In **Settings → Community plugins**, turn off Restricted mode, then enable **ObsidiFormat**. Reload Obsidian if the plugin does not appear.
 5. Click the braces icon in the ribbon, or run **Open ObsidiFormat**.
 
 To build those files yourself:
@@ -50,7 +52,7 @@ npm run build
 
 Open **ObsidiFormat**. Paste, drop, or upload JSON, XML, or SOAP, then choose **Beautify**, **Minify**, or **Validate**. The message bar reports success and parsing errors. **Go to error** moves the cursor to the reported line when a location is available.
 
-**Insert** puts the output at the cursor of the last Markdown note that was in editing mode. It replaces that note's selection when one exists, and it does not save the note.
+**Insert** writes the output into a Markdown note that is in source mode. Reading view is not changed. It uses the active source note when one is focused, and otherwise the last source note. An existing selection is replaced. The note is not saved.
 
 **XML Tools** decodes entity-encoded documents, extracts embedded payloads, and encodes text. The input editor is left unchanged; the result is written to the output panel.
 
@@ -81,7 +83,7 @@ While the ObsidiFormat tab is focused:
 | Auto format selection | Detects the format, or uses the default formatter when detection is off. |
 | Minify selected JSON | Compacts the selected JSON. |
 | Send selection to ObsidiFormat | Loads the selection into the input editor. |
-| Insert ObsidiFormat output | Inserts the output panel into the active Markdown editor. |
+| Insert ObsidiFormat output | Inserts the output into a source-mode Markdown note. It does not save the note. |
 
 Selection commands do nothing to the rest of the note. If parsing fails, the selection is kept and a notice explains the error.
 
@@ -100,7 +102,7 @@ Open **Settings → ObsidiFormat**.
 | Output preference | Keep output in the panel, or also copy it. |
 | Syntax highlighting | Color the ObsidiFormat editors. Turn this off for very large payloads. |
 
-The view's own settings store zoom, word wrap, layout, auto-format, format-on-paste, XML auto-decode, and optional local content. Saved editor text is off by default. When enabled, it is stored unencrypted in the plugin's `data.json` and is limited to about one million characters per editor. Preferences are saved with Obsidian's `loadData` / `saveData`.
+The view's own settings store zoom, word wrap, layout, auto-format, format-on-paste, XML auto-decode, and optional local content. Saved editor text is off by default. When enabled, each editor stores at most 1,000,000 characters, unencrypted, in `<vault>/.obsidian/plugins/obsidi-format/data.json`. Preferences are saved with Obsidian's `loadData` / `saveData`.
 
 ## Development
 
@@ -145,10 +147,10 @@ Before submission, confirm the plugin loads and unloads cleanly, that commands a
 ## Assumptions
 
 - Minimum Obsidian version is 1.4.0 because the view uses workspace leaves, the editor selection API, and theme CSS variables that have been stable since that generation.
-- CodeMirror 5 is bundled for the ObsidiFormat editors so folding, search, and bracket matching from the original application still work. It is themed with Obsidian CSS variables and is not the editor used for Markdown notes.
+- CodeMirror 5 is bundled for the ObsidiFormat editors so folding, search, and bracket matching work there. It is themed with Obsidian CSS variables and is not the editor used for Markdown notes.
 - XML well-formedness uses the platform `DOMParser` after markup declarations have been rejected. Obsidian desktop and mobile both provide that browser API.
 - Only one ObsidiFormat view is kept open. Use the sidebar command before it is open, or drag the tab afterward.
-- Editor-content persistence is capped so `data.json` cannot grow to the in-memory 20 million character processing limit.
+- Formatting rejects input longer than 20 × 1024 × 1024 characters. Saved editor text is capped separately at 1,000,000 characters per editor.
 - `manifest.json` names the author as Reza Ali and links the author URL to https://rezaalie.ir.
 
 ## Known limitations
