@@ -5,6 +5,7 @@ import { indentUnit, sanitizeSettings, selectedFormat } from "./settings-data";
 import { ObsidiFormatSettingTab } from "./settings";
 import {
   DEFAULT_SETTINGS,
+  DIFF_VIEW_TYPE,
   VIEW_TYPE,
   type FormatAction,
   type ObsidiFormatSettings,
@@ -13,6 +14,7 @@ import {
 import { copyText } from "./utils/clipboard";
 import { errorMessage } from "./utils/validation";
 import { ObsidiFormatView } from "./views/ObsidiFormatView";
+import { PayloadDiffView } from "./views/PayloadDiffView";
 
 export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
   settings: ObsidiFormatSettings = { ...DEFAULT_SETTINGS };
@@ -26,10 +28,14 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     if (this.shouldScrubStoredContent(raw)) await this.saveData(this.settings);
 
     this.registerView(VIEW_TYPE, (leaf) => new ObsidiFormatView(leaf, this));
+    this.registerView(DIFF_VIEW_TYPE, (leaf) => new PayloadDiffView(leaf));
     this.addSettingTab(new ObsidiFormatSettingTab(this.app, this));
 
     this.addRibbonIcon("braces", "Open Payload Formatter", () => {
       void this.openView("tab");
+    });
+    this.addRibbonIcon("git-compare", "Open Payload Diff", () => {
+      void this.openDiffView("tab");
     });
 
     this.addCommand({
@@ -44,6 +50,20 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
       name: "Open in sidebar",
       callback: () => {
         void this.openView("sidebar");
+      },
+    });
+    this.addCommand({
+      id: "open-diff",
+      name: "Open Payload Diff",
+      callback: () => {
+        void this.openDiffView("tab");
+      },
+    });
+    this.addCommand({
+      id: "open-diff-sidebar",
+      name: "Open Payload Diff in sidebar",
+      callback: () => {
+        void this.openDiffView("sidebar");
       },
     });
     this.addCommand({
@@ -165,6 +185,20 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     return leaf.view instanceof ObsidiFormatView ? leaf.view : null;
   }
 
+  private async openDiffView(location: "tab" | "sidebar"): Promise<PayloadDiffView | null> {
+    const existing = this.app.workspace.getLeavesOfType(DIFF_VIEW_TYPE);
+    const leaf = existing[0] ?? (location === "sidebar" ? this.app.workspace.getRightLeaf(false) : this.app.workspace.getLeaf("tab"));
+    if (!leaf) {
+      new Notice("Unable to open Payload Diff.");
+      return null;
+    }
+    if (leaf.view.getViewType() !== DIFF_VIEW_TYPE) {
+      await leaf.setViewState({ type: DIFF_VIEW_TYPE, active: true });
+    }
+    await this.app.workspace.revealLeaf(leaf);
+    return leaf.view instanceof PayloadDiffView ? leaf.view : null;
+  }
+
   private enforceSingleView(): void {
     const leaves = this.app.workspace.getLeavesOfType(VIEW_TYPE);
     if (leaves.length <= 1) return;
@@ -184,9 +218,27 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
         const submenu = (item as MenuItem & { setSubmenu: () => Menu }).setSubmenu();
         this.addFormatMenuItems(submenu, editor, hasSelection);
       });
+      menu.addItem((item) => {
+        item.setTitle("Payload Diff").setIcon("git-compare").setSection("obsidi-format-diff");
+        const submenu = (item as MenuItem & { setSubmenu: () => Menu }).setSubmenu();
+        this.addDiffMenuItems(submenu, editor, hasSelection);
+      });
       return;
     }
     this.addFormatMenuItems(menu, editor, hasSelection);
+    this.addDiffMenuItems(menu, editor, hasSelection);
+  }
+
+  private addDiffMenuItems(menu: Menu, editor: Editor, hasSelection: boolean): void {
+    this.menuItem(menu, "Open Payload Diff", "git-compare", false, () => {
+      void this.openDiffView("tab");
+    });
+    this.menuItem(menu, "Send selection to Payload Diff (A)", "git-compare", !hasSelection, () => {
+      void this.sendToDiff(editor, "left");
+    });
+    this.menuItem(menu, "Send selection to Payload Diff (B)", "git-compare", !hasSelection, () => {
+      void this.sendToDiff(editor, "right");
+    });
   }
 
   private addFormatMenuItems(menu: Menu, editor: Editor, hasSelection: boolean): void {
@@ -242,6 +294,18 @@ export default class ObsidiFormatPlugin extends Plugin implements FormatHost {
     } catch (error) {
       new Notice(errorMessage(error));
     }
+  }
+
+  private async sendToDiff(editor: Editor, side: "left" | "right"): Promise<void> {
+    const text = editor.getSelection();
+    if (!text.trim()) {
+      new Notice("Select text to send to Payload Diff.");
+      return;
+    }
+    const view = await this.openDiffView("tab");
+    if (!view) return;
+    view.loadInput(text, side);
+    new Notice(`Selection sent to Payload Diff ${side === "left" ? "A" : "B"}.`);
   }
 
   private async sendSelection(editor: Editor): Promise<void> {

@@ -58,6 +58,10 @@ const ICONS: Record<string, IconNode[]> = {
   fold: [{ tag: "path", d: "M4 4h16v16H4zM8 9l4 4 4-4" }],
   unfold: [{ tag: "path", d: "M4 4h16v16H4zM8 15l4-4 4 4" }],
   note: [{ tag: "path", d: "M6 3h9l3 3v15H6zM15 3v4h4M9 12h6m-6 4h4" }],
+  diff: [
+    { tag: "path", d: "M6 4v16M18 4v16" },
+    { tag: "path", d: "M3 8h6m-6 8h6M15 8h6m-6 8h6" },
+  ],
 };
 
 export function mountIcons(host: SVGSVGElement): void {

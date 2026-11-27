@@ -49,6 +49,12 @@ npm run build
 
 Detection can run automatically, or you can pin JSON, XML, or SOAP.
 
+## Payload Diff
+
+Run **Open Payload Diff** from the command palette or use the compare icon in the ribbon. `Open Payload Diff in sidebar` docks it on the right. Paste or upload two payloads into A and B, then choose **Compare**. Ctrl/Cmd+Enter compares; Ctrl/Cmd+Shift+C copies the report.
+
+The comparison is structural: JSON key order, numeric spelling, and whitespace are ignored; XML and SOAP indentation, attribute order, and namespace prefixes are ignored. The report lists added (`+`), removed (`-`), and changed (`~`) paths. Mixed formats, encoded XML, DTDs, and external entities are rejected before parsing. Nothing is uploaded.
+
 ## What is preserved
 
 - Unicode, duplicate JSON keys, and numbers that must not be rewritten as floating point.
@@ -84,6 +90,8 @@ In the command palette, each name appears next to **Payload Formatter**.
 | --- | --- |
 | Open | Open the workspace in a tab, or focus it. |
 | Open in sidebar | Open it in the right sidebar when it is not already open. |
+| Open Payload Diff | Open the two-pane structural diff in a tab, or focus it. |
+| Open Payload Diff in sidebar | Open it in the right sidebar when it is not already open. |
 | Format selected JSON | Beautify the selection as JSON. |
 | Format selected XML | Beautify the selection as XML. |
 | Format selected SOAP | Beautify the selection as SOAP. |
@@ -92,7 +100,7 @@ In the command palette, each name appears next to **Payload Formatter**.
 | Send selection | Load the selection into the input editor. |
 | Insert output | Insert the output into a source-mode note, without saving. |
 
-The same actions are on the editor right-click menu. Format actions stay disabled until something is selected.
+The same actions are on the editor right-click menu. The menu also opens Payload Diff and sends the selection to side A or B. Format and send actions stay disabled until something is selected.
 
 ## Settings
 

@@ -18,6 +18,7 @@ export const MAX_OUTPUT = 64 * 1024 * 1024;
 export const MAX_SAVED_CHARS = 1_000_000;
 
 export const VIEW_TYPE = "obsidi-format-view";
+export const DIFF_VIEW_TYPE = "obsidi-format-diff-view";
 
 export interface FormatLocation {
   line: number;
