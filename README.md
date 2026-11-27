@@ -3,7 +3,7 @@
 Format, beautify, validate, and minify JSON, XML, and SOAP inside Obsidian. Everything runs on your device. Note text is never uploaded, and no external formatter is called.
 
 <p align="center">
-  <a href="https://github.com/imRezaAlie/obsidiFormat/releases">Release 1.0.3</a>
+  <a href="https://github.com/imRezaAlie/obsidiFormat/releases">Release 1.0.5</a>
   &nbsp;·&nbsp;
   <a href="https://rezaalie.ir">rezaalie.ir</a>
   &nbsp;·&nbsp;

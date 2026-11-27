@@ -1,6 +1,6 @@
 {
   "name": "obsidi-format",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Format, beautify, and validate JSON, XML, and SOAP.",
   "main": "main.js",
   "scripts": {

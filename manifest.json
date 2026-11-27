@@ -1,7 +1,7 @@
 {
   "id": "obsidi-format",
   "name": "Payload Formatter",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "minAppVersion": "1.7.2",
   "description": "Format, beautify, and validate JSON, XML, and SOAP.",
   "author": "Reza Ali",
